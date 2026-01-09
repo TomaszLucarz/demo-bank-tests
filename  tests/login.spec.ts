@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginData } from '../test-data/login.data';
 import { LoginPage } from '../pages/login.page';
+import { log } from 'node:console';
 
 test.describe('User login to Demobank', () => {
   test.beforeEach(async ({ page }) => {
@@ -32,13 +33,12 @@ test.describe('User login to Demobank', () => {
     const expectedLoginErrorText = 'identyfikator ma min. 8 znaków';
 
     // Act
-    await page.getByTestId('login-input').fill(incorrectUserId);
-    await page.getByTestId('password-input').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(incorrectUserId);
+    await loginPage.passwordInput.click();
 
     // Assert
-    await expect(page.getByTestId('error-login-id')).toHaveText(
-      expectedLoginErrorText,
-    );
+    await expect(loginPage.loginError).toHaveText(expectedLoginErrorText);
   });
 
   test('unsuccessful login with incorrect credentials with too short password', async ({
@@ -50,13 +50,12 @@ test.describe('User login to Demobank', () => {
     const expectedPasswordErrorText = 'hasło ma min. 8 znaków';
 
     // Act
-    await page.getByTestId('login-input').fill(userId);
-    await page.getByTestId('password-input').fill(incorrectUserPassword);
-    await page.getByTestId('password-input').blur();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(incorrectUserPassword);
+    await loginPage.loginInput.click();
 
     // Assert
-    await expect(page.getByTestId('error-login-password')).toHaveText(
-      expectedPasswordErrorText,
-    );
+    await expect(loginPage.passwordError).toHaveText(expectedPasswordErrorText);
   });
 });
