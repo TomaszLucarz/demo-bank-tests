@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { loginData } from '../test-data/login.data';
+import { LoginPage } from '../pages/login.page';
 
 test.describe('Payment tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,14 +8,15 @@ test.describe('Payment tests', () => {
     const userPassword = loginData.userPassword;
 
     await page.goto('/');
-    await page.getByTestId('login-input').fill(userId);
-    await page.getByTestId('password-input').fill(userPassword);
-    await page.getByTestId('login-button').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
     await page.getByRole('link', { name: 'płatności' }).click();
     await page.waitForLoadState('networkidle'); // needed to load everything properly
   });
 
-  test('Simple payment', async ({ page }) => {
+  test('simple payment', async ({ page }) => {
     // Arrange
     const transferReceiver = 'Jan Nowak';
     const receiverAccount = '12 3456 7890 1234 5678 9012 3456';
