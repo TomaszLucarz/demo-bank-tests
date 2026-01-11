@@ -57,13 +57,13 @@ test.describe('Pulpit tests', () => {
 
   test('correct balance after successful mobile top-up', async ({ page }) => {
     // Arrange
+    const pulpitPage = new PulpitPage(page);
     const topupReceiver = '504 xxx xxx';
     const topupAmount = '100';
-    const initialBalance = await page.locator('#money_value').innerText();
+    const initialBalance = await pulpitPage.moneyValueLocator.innerText();
     const expectedBalance = Number(initialBalance) - Number(topupAmount);
 
     // Act
-    const pulpitPage = new PulpitPage(page);
     await pulpitPage.topupReceiverSelect.selectOption(topupReceiver);
     await pulpitPage.topupAmountSelect.selectOption(topupAmount);
     await pulpitPage.topupAgreementCheckbox.click();
@@ -71,8 +71,6 @@ test.describe('Pulpit tests', () => {
     await pulpitPage.closeButton.click();
 
     // Assert
-    await expect(pulpitPage.expectedTopupMessageLocator).toHaveText(
-      `${expectedBalance}`,
-    );
+    await expect(pulpitPage.moneyValueLocator).toHaveText(`${expectedBalance}`);
   });
 });

@@ -9,6 +9,7 @@ export class PulpitPage {
   executeTransferButton = this.page.locator('#execute_btn');
   expectedMessageLocator = this.page.locator('#show_messages');
 
+  moneyValueLocator = this.page.locator('#money_value');
   topupReceiverSelect = this.page.locator('#widget_1_topup_receiver');
   topupAmountSelect = this.page.locator('#widget_1_topup_amount');
   topupAgreementCheckbox = this.page.locator(
@@ -18,5 +19,6 @@ export class PulpitPage {
     name: 'doładuj telefon',
   });
   closeButton = this.page.getByTestId('close-button');
-  expectedTopupMessageLocator = this.page.locator('#money_value');
+
+  usernameTextLocator = this.page.locator('#user_name');
 }
