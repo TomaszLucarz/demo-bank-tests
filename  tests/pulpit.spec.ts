@@ -24,13 +24,11 @@ test.describe('Pulpit tests', () => {
     const expectedPaymentMessage = `Przelew wykonany! ${transferReceiver} - ${transferAmount},00PLN - ${transferTitle}`;
 
     // Act
-    await pulpitPage.transferReceiverSelect.selectOption({
-      label: transferReceiver,
-    });
-    await pulpitPage.transferAmountInput.fill(transferAmount);
-    await pulpitPage.transferTitleInput.fill(transferTitle);
-    await pulpitPage.executeTransferButton.click(); // await page.getByRole('button', { name: 'wykonaj' }).click();
-    await pulpitPage.closeButton.click();
+    await pulpitPage.executeQuickPayment(
+      transferReceiver,
+      transferAmount,
+      transferTitle,
+    );
 
     // Assert
     await expect(pulpitPage.expectedMessageLocator).toHaveText(
@@ -45,11 +43,7 @@ test.describe('Pulpit tests', () => {
     const expectedMessage = `Doładowanie wykonane! ${topupAmount},00PLN na numer ${topupReceiver}`;
 
     // Act
-    await page.locator('#widget_1_topup_receiver').selectOption(topupReceiver);
-    await page.locator('#widget_1_topup_amount').selectOption(topupAmount);
-    await page.locator('#uniform-widget_1_topup_agreement span').click();
-    await page.getByRole('button', { name: 'doładuj telefon' }).click();
-    await page.getByTestId('close-button').click();
+    await pulpitPage.executeMobileTopup(topupReceiver, topupAmount);
 
     // Assert
     await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
@@ -63,11 +57,7 @@ test.describe('Pulpit tests', () => {
     const expectedBalance = Number(initialBalance) - Number(topupAmount);
 
     // Act
-    await pulpitPage.topupReceiverSelect.selectOption(topupReceiver);
-    await pulpitPage.topupAmountSelect.selectOption(topupAmount);
-    await pulpitPage.topupAgreementCheckbox.click();
-    await pulpitPage.executeTopupButton.click();
-    await pulpitPage.closeButton.click();
+    await pulpitPage.executeMobileTopup(topupReceiver, topupAmount);
 
     // Assert
     await expect(pulpitPage.moneyValueLocator).toHaveText(`${expectedBalance}`);

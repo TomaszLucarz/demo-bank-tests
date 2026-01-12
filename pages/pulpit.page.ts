@@ -24,4 +24,29 @@ export class PulpitPage {
   closeButton = this.page.getByTestId('close-button');
 
   usernameTextLocator = this.page.locator('#user_name');
+
+  async executeQuickPayment(
+    transferReceiver: string,
+    transferAmount: string,
+    transferTitle: string,
+  ): Promise<void> {
+    await this.transferReceiverSelect.selectOption({
+      label: transferReceiver,
+    });
+    await this.transferAmountInput.fill(transferAmount);
+    await this.transferTitleInput.fill(transferTitle);
+    await this.executeTransferButton.click();
+    await this.closeButton.click();
+  }
+
+  async executeMobileTopup(
+    topupReceiver: string,
+    topupAmount: string,
+  ): Promise<void> {
+    await this.topupReceiverSelect.selectOption(topupReceiver);
+    await this.topupAmountSelect.selectOption(topupAmount);
+    await this.topupAgreementCheckbox.click();
+    await this.executeTopupButton.click();
+    await this.closeButton.click();
+  }
 }
