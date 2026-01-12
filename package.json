@@ -10,6 +10,9 @@
     "test: login:headed": "npm run test tests/login.spec.ts -- --headed",
     "test: pulpit": "npm run test tests/pulpit.spec.ts",
     "test: pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
+    "test: login - tag": "npx playwright test --grep \"@login\"",
+    "test: pulpit - tag": "npx playwright test --grep \"@pulpit\"",
+    "test: payment - tag": "npx playwright test --grep \"@payment\"",
     "prettier": "npx prettier --write ."
   },
   "keywords": [],

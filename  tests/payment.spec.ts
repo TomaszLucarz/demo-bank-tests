@@ -22,23 +22,27 @@ test.describe('Payment tests', () => {
     paymentPage = new PaymentPage(page);
   });
 
-  test('simple payment', async ({ page }) => {
-    // Arrange
-    const transferReceiver = 'Jan Nowak';
-    const receiverAccount = '12 3456 7890 1234 5678 9012 3456';
-    const transferAmount = '150';
-    const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${transferReceiver}`;
+  test(
+    'simple payment with correct data',
+    { tag: ['@payment', '@integration'] },
+    async ({ page }) => {
+      // Arrange
+      const transferReceiver = 'Jan Nowak';
+      const receiverAccount = '12 3456 7890 1234 5678 9012 3456';
+      const transferAmount = '150';
+      const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${transferReceiver}`;
 
-    //Act
-    await paymentPage.makeTransfer(
-      transferReceiver,
-      receiverAccount,
-      transferAmount,
-    );
+      //Act
+      await paymentPage.makeTransfer(
+        transferReceiver,
+        receiverAccount,
+        transferAmount,
+      );
 
-    // Assert
-    await expect(paymentPage.expectedMessageLocator).toHaveText(
-      expectedMessage,
-    );
-  });
+      // Assert
+      await expect(paymentPage.expectedMessageLocator).toHaveText(
+        expectedMessage,
+      );
+    },
+  );
 });
