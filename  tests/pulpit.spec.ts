@@ -10,9 +10,8 @@ test.describe('Pulpit tests', () => {
     const userPassword = loginData.userPassword;
     await page.goto('/');
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
+
     await page.waitForLoadState('networkidle'); // needed to load everything properly
     pulpitPage = new PulpitPage(page);
   });
