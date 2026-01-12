@@ -5,9 +5,12 @@ import { log } from 'node:console';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('User login to Demobank', () => {
+  let loginPage: LoginPage;
+
   test.beforeEach(async ({ page }) => {
     const url = 'https://demo-bank.vercel.app/';
     await page.goto('/');
+    loginPage = new LoginPage(page);
   });
 
   test('successful login with correct credentials', async ({ page }) => {
@@ -17,7 +20,6 @@ test.describe('User login to Demobank', () => {
     const expectedUsername = 'Jan Demobankowy';
 
     // Act
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
@@ -35,7 +37,6 @@ test.describe('User login to Demobank', () => {
     const expectedLoginErrorText = 'identyfikator ma min. 8 znaków';
 
     // Act
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(incorrectUserId);
     await loginPage.passwordInput.click();
 
@@ -52,7 +53,6 @@ test.describe('User login to Demobank', () => {
     const expectedPasswordErrorText = 'hasło ma min. 8 znaków';
 
     // Act
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(incorrectUserPassword);
     await loginPage.loginInput.click();

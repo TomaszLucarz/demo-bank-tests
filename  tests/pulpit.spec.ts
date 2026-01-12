@@ -4,6 +4,7 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  let pulpitPage: PulpitPage;
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
@@ -13,6 +14,7 @@ test.describe('Pulpit tests', () => {
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
     await page.waitForLoadState('networkidle'); // needed to load everything properly
+    pulpitPage = new PulpitPage(page);
   });
 
   test('quick payment with correct data', async ({ page }) => {
@@ -23,7 +25,6 @@ test.describe('Pulpit tests', () => {
     const expectedPaymentMessage = `Przelew wykonany! ${transferReceiver} - ${transferAmount},00PLN - ${transferTitle}`;
 
     // Act
-    const pulpitPage = new PulpitPage(page);
     await pulpitPage.transferReceiverSelect.selectOption({
       label: transferReceiver,
     });
@@ -57,7 +58,6 @@ test.describe('Pulpit tests', () => {
 
   test('correct balance after successful mobile top-up', async ({ page }) => {
     // Arrange
-    const pulpitPage = new PulpitPage(page);
     const topupReceiver = '504 xxx xxx';
     const topupAmount = '100';
     const initialBalance = await pulpitPage.moneyValueLocator.innerText();

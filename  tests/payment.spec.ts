@@ -5,6 +5,8 @@ import { PaymentPage } from '../pages/payment.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Payment tests', () => {
+  let paymentPage: PaymentPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
@@ -19,6 +21,7 @@ test.describe('Payment tests', () => {
     await pulpitPage.sideMenu.paymentButton.click();
 
     await page.waitForLoadState('networkidle'); // needed to load everything properly
+    paymentPage = new PaymentPage(page);
   });
 
   test('simple payment', async ({ page }) => {
@@ -29,7 +32,6 @@ test.describe('Payment tests', () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${transferReceiver}`;
 
     //Act
-    const paymentPage = new PaymentPage(page);
     await paymentPage.transferReceiverSelect.fill(transferReceiver);
     await paymentPage.transferAccountInput.fill(receiverAccount);
     await paymentPage.transferAmountInput.fill(transferAmount);
