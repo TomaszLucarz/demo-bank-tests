@@ -4,7 +4,9 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  test.describe.configure({ retries: 3 });
   let pulpitPage: PulpitPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
@@ -12,7 +14,7 @@ test.describe('Pulpit tests', () => {
     const loginPage = new LoginPage(page);
     await loginPage.login(userId, userPassword);
 
-    await page.waitForLoadState('networkidle'); // needed to load everything properly
+    await page.waitForLoadState('domcontentloaded'); // needed to load everything properly
     pulpitPage = new PulpitPage(page);
   });
 

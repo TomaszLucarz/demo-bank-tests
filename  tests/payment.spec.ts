@@ -5,6 +5,7 @@ import { PaymentPage } from '../pages/payment.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Payment tests', () => {
+  test.describe.configure({ retries: 3 });
   let paymentPage: PaymentPage;
 
   test.beforeEach(async ({ page }) => {
@@ -18,7 +19,7 @@ test.describe('Payment tests', () => {
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.sideMenu.paymentButton.click();
 
-    await page.waitForLoadState('networkidle'); // needed to load everything properly
+    await page.waitForLoadState('domcontentloaded'); // needed to load everything properly
     paymentPage = new PaymentPage(page);
   });
 

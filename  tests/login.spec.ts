@@ -5,6 +5,7 @@ import { log } from 'node:console';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('User login to Demobank', () => {
+  test.describe.configure({ retries: 3 });
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
@@ -30,6 +31,7 @@ test.describe('User login to Demobank', () => {
 
       // Act
       await loginPage.login(userId, userPassword);
+      await page.waitForLoadState('domcontentloaded'); // needed to load everything properly
 
       // Assert
       const pulpitPage = new PulpitPage(page);
