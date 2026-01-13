@@ -13,7 +13,8 @@
     "test: login - tag": "npx playwright test --grep \"@login\"",
     "test: pulpit - tag": "npx playwright test --grep \"@pulpit\"",
     "test: payment - tag": "npx playwright test --grep \"@payment\"",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "show report": "npx playwright show-report"
   },
   "keywords": [],
   "author": "",

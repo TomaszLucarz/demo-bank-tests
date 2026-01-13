@@ -18,7 +18,14 @@ test.describe('Pulpit tests', () => {
 
   test(
     'quick payment with correct data',
-    { tag: ['@pulpit', '@integration'] },
+    {
+      tag: ['@pulpit', '@integration'],
+      annotation: {
+        type: 'Documentation',
+        description:
+          'More to find at: https://jaktestowac.pl/course/playwright-wprowadzenie',
+      },
+    },
     async ({ page }) => {
       // Arrange
       const transferReceiver = 'Chuck Demobankowy';
